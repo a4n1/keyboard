@@ -1,0 +1,181 @@
+meta:
+  engine: 4.1.0
+points:
+  zones:
+    keys:
+      columns:
+        pinky:
+          key:
+            splay: 10
+        ring:
+          key:
+            stagger: 19 
+            spread: 20 
+            splay: -5
+        middle:
+          key:
+            stagger: 6
+            spread: 20 
+            splay: -5
+        index:
+          key:
+            stagger: -6
+            spread: 20 
+        inner:
+          key:
+            stagger: -2
+            spread: 20 
+      rows:
+        bottom:
+        home:
+        top:
+      anchor:
+        shift: [150, -150]
+    thumb:
+      anchor:
+        ref: keys_inner_bottom
+        shift: [-1.2875cx, -1.25cx]
+      columns:
+        inner:
+          key:
+            splay: -4
+            name: keys_thumb_inner
+        home:
+          key:
+            splay: -12
+            origin: [-10, -10]
+            name: keys_thumb_home
+        outer:
+          key:
+            splay: -12
+            origin: [-10, -10]
+            name: keys_thumb_outer
+outlines:
+  panel:
+    - what: polygon
+      operation: stack
+      fillet: 0.5
+      points:
+        - ref: keys_pinky_top
+          shift: [-0.5cx - 0.5, -0.5cx]
+        - ref: keys_pinky_top
+          shift: [-0.5cx - 0.5, 0.5cx]
+        - ref: keys_pinky_top
+          shift: [0.5cx + 3.915, 0.5cx]
+        - ref: keys_ring_top
+          shift: [-0.5cx - 0.5, 0.5cx]
+        - ref: keys_ring_top
+          shift: [0.5cx + 5.05, 0.5cx]
+        - ref: keys_middle_top
+          shift: [-0.5cx - 0.5, 0.5cx]
+        - ref: keys_middle_top
+          shift: [0.5cx + 0.5, 0.5cx]
+        - ref: keys_index_top
+          shift: [-0.5cx - 1.5, 0.5cx]
+        - ref: keys_index_top
+          shift: [0.5cx + 0.5, 0.5cx]
+        - ref: keys_inner_top
+          shift: [-0.5cx - 1.5, 0.5cx]
+        - ref: keys_inner_top
+          shift: [0.5cx + 0.5, 0.5cx]
+        - ref: keys_inner_top
+          shift: [0.5cx + 0.5, -0.5cx - 1.5]
+        - ref: keys_inner_top
+          shift: [1.5cx + 2.5, -0.5cx - 1.5]
+        - ref: keys_thumb_outer
+          shift: [0.5cx + 0.5, 0.5cx]
+        - ref: keys_thumb_outer
+          shift: [0.5cx + 0.5, -0.5cx]
+        - ref: keys_thumb_outer
+          shift: [-0.5cx, -0.5cx]
+        - ref: keys_thumb_home
+          shift: [0.5cx, -0.5cx]
+        - ref: keys_thumb_home
+          shift: [-0.5cx, -0.5cx]
+        - ref: keys_thumb_inner
+          shift: [0.5cx, -0.5cx]
+        - ref: keys_thumb_inner
+          shift: [-0.5cx, -0.5cx]
+        - ref: keys_pinky_bottom
+          shift: [-0.5cx - 0.5, -0.5cx]
+pcbs:
+  main:
+    template: kicad8
+    outlines:
+      main:
+        outline: panel
+    footprints:
+      choc_hotswap:
+        what: choc
+        where: true
+        params:
+          from: "{{name}}"
+          to: GND
+          keycaps: true
+          reverse: true
+          hotswap: false
+      controller:
+        what: nicenano
+        where:
+          - ref: keys_inner_bottom
+            shift: [cx + 2, 0.5cx]
+            rotate: -90
+        params:
+          P20: keys_pinky_top
+          P16: keys_pinky_home
+          P10: keys_pinky_bottom
+
+          P3: keys_ring_top
+          P21: keys_ring_home
+          P14: keys_ring_bottom
+
+          P2: keys_middle_top
+          P6: keys_middle_home
+          P15: keys_middle_bottom
+
+          P0: keys_index_top
+          P5: keys_index_home
+          P18: keys_index_bottom
+
+          P1: keys_inner_top
+          P4: keys_inner_home
+          P19: keys_inner_bottom
+
+          P7: keys_thumb_inner
+          P8: keys_thumb_home
+          P9: keys_thumb_outer
+
+          P33: MOSI
+          P32: SCK
+          P31: CS
+      niceview:
+        what: niceview
+        where:
+          ref:
+            - keys_inner_bottom
+          shift: [0.5cx + 5.92, -0.5cx - 4]
+          rotate: 90
+        params:
+          CS: CS
+          SCK: SCK
+          MOSI: MOSI
+      reset:
+        what: reset
+        where:
+          ref:
+            - keys_inner_bottom
+          shift: [0.5cx + 11.1, -0.5cx - 6]
+          rotate: 180 
+        params:
+          from: RST
+          to: GND
+      power:
+        what: slider
+        where:
+          ref: keys_inner_top
+          shift: [0.5cx - 2, -6]
+          rotate: -90
+        params:
+          side: F
+          from: B+
+          to: RAW
